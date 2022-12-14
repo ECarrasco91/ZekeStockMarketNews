@@ -1,1 +1,7 @@
-<resources></resources>
+<resources>
+    <dimen name="card_view_margin">8dp</dimen>
+    <dimen name="article_imageview_height">194dp</dimen>
+    <dimen name="bookmark_width">36dp</dimen>
+    <dimen name="bookmark_height">36dp</dimen>
+    <dimen name="bookmark_margin">16dp</dimen>
+</resources>
