@@ -5,7 +5,7 @@ import androidx.annotation.WorkerThread
 import kotlinx.coroutines.flow.*
 
 /**
- * A generic class that can providqe a resource backed by both the database and network
+ * A generic class that can provide a resource backed by both the database and network
  *
  * @param ResultType - represents the data type for Resource data
  * @param RequestType - represents the data type for API response

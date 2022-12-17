@@ -18,6 +18,9 @@ interface NewsArticleDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertArticles(newsArticles: List<NewsArticle>)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertLatestArticles(newsArticles: List<LatestNews>)
+
     @Update
     suspend fun updateArticle(newsArticle: NewsArticle)
 
