@@ -9,7 +9,9 @@ import androidx.navigation.ui.setupWithNavController
 import com.ezequielc.zekestockmarketnews.R
 import com.ezequielc.zekestockmarketnews.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
