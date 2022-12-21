@@ -22,7 +22,6 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
             } catch (exception: Exception) {
                 onFetchFailed()
                 emit(Resource.Error(error = exception.toString()))
-                return@flow
             }
         }
 

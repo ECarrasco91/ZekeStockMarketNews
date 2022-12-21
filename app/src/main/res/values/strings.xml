@@ -4,4 +4,6 @@
     <string name="title_home">Home</string>
     <string name="title_search">Search</string>
     <string name="title_bookmarks">Bookmarks</string>
+    <string name="latest_news_error">Unable to receive latest news</string>
+    <string name="retry_snackbar_text">Retry</string>
 </resources>

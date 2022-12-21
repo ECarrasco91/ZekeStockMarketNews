@@ -8,11 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ezequielc.zekestockmarketnews.R
 import com.ezequielc.zekestockmarketnews.adapters.NewsArticleListAdapter
 import com.ezequielc.zekestockmarketnews.databinding.FragmentHomeBinding
 import com.ezequielc.zekestockmarketnews.util.DEFAULT_KEY
 import com.ezequielc.zekestockmarketnews.util.REFRESH_KEY
 import com.ezequielc.zekestockmarketnews.util.Resource
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -78,12 +80,22 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun showErrorSnackbar() {
+        hideShimmer()
+        Snackbar.make(requireView(), R.string.latest_news_error, Snackbar.LENGTH_LONG)
+            .setAction(R.string.retry_snackbar_text) {
+                showLatestNews()
+            }.show()
+    }
+
     private fun showLatestNews() {
         latestNewsJob?.cancel()
         latestNewsJob = lifecycleScope.launch {
             homeViewModel.loadLatestMarketNews(DEFAULT_KEY)
                 .observe(viewLifecycleOwner) { resource ->
                     if (resource is Resource.Loading) showShimmer()
+
+                    if (resource is Resource.Error) showErrorSnackbar()
 
                     if (resource is Resource.Success) {
                         hideShimmer()
@@ -99,6 +111,11 @@ class HomeFragment : Fragment() {
             homeViewModel.loadLatestMarketNews(REFRESH_KEY)
                 .observe(viewLifecycleOwner) { resource ->
                     if (resource is Resource.Loading) showShimmer()
+
+                    if (resource is Resource.Error) {
+                        showErrorSnackbar()
+                        binding.swipeRefreshLayout.isRefreshing = false
+                    }
 
                     if (resource is Resource.Success) {
                         hideShimmer()
