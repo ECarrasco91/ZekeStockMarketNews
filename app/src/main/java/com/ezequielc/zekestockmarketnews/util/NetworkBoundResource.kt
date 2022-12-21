@@ -24,9 +24,9 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
                 emit(Resource.Error(error = exception.toString()))
                 return@flow
             }
-
-            emitAll(loadFromDb().map { Resource.Success(it) })
         }
+
+        emitAll(loadFromDb().map { Resource.Success(it) })
     }
 
     protected open fun onFetchFailed() {}
