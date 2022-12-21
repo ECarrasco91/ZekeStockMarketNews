@@ -14,4 +14,16 @@ interface StockDataService {
         @Query("language") language: String = "en",
         @Query("api_token") api_token: String = STOCK_DATA_TOKEN
     ): MarketNewsResponse
+
+    /**
+     * https://api.stockdata.org/v1/news/all?page={page}&search={search}&language=en&
+     * api_token=YOUR_API_TOKEN
+     */
+    @GET("news/all")
+    suspend fun querySearchResults(
+        @Query("page") page: Int,
+        @Query("search") search: String,
+        @Query("language") language: String = "en",
+        @Query("api_token") api_token: String = STOCK_DATA_TOKEN
+    ): MarketNewsResponse
 }

@@ -30,3 +30,11 @@ data class LatestNews(
     val article: NewsArticle,
     @PrimaryKey val articleId: String = article.uuid
 )
+
+@Entity(tableName = "search_results", primaryKeys = ["query", "article"])
+data class SearchResults(
+    val query: String,
+    val queryPosition: Int,
+    val article: NewsArticle,
+    val articleId: String = article.uuid
+)
