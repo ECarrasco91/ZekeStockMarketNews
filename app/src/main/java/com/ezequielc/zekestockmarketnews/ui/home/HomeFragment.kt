@@ -60,12 +60,33 @@ class HomeFragment : Fragment() {
         latestNewsJob?.cancel()
     }
 
+    private fun showShimmer() {
+        binding.apply {
+            loadingState.shimmerLayout.visibility = View.VISIBLE
+            loadingState.shimmerLayout.startShimmer()
+
+            newsListRecyclerview.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun hideShimmer() {
+        binding.apply {
+            loadingState.shimmerLayout.visibility = View.INVISIBLE
+            loadingState.shimmerLayout.stopShimmer()
+
+            newsListRecyclerview.visibility = View.VISIBLE
+        }
+    }
+
     private fun showLatestNews() {
         latestNewsJob?.cancel()
         latestNewsJob = lifecycleScope.launch {
             homeViewModel.loadLatestMarketNews(DEFAULT_KEY)
                 .observe(viewLifecycleOwner) { resource ->
+                    if (resource is Resource.Loading) showShimmer()
+
                     if (resource is Resource.Success) {
+                        hideShimmer()
                         latestNewsListAdapter.submitList(resource.data)
                     }
                 }
@@ -77,7 +98,10 @@ class HomeFragment : Fragment() {
         latestNewsJob = lifecycleScope.launch {
             homeViewModel.loadLatestMarketNews(REFRESH_KEY)
                 .observe(viewLifecycleOwner) { resource ->
+                    if (resource is Resource.Loading) showShimmer()
+
                     if (resource is Resource.Success) {
+                        hideShimmer()
                         latestNewsListAdapter.submitList(resource.data)
 
                         binding.apply {

@@ -16,4 +16,9 @@
             android:layout_height="match_parent"
             tools:listitem="@layout/news_list_item" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <include
+        android:id="@+id/loading_state"
+        layout="@layout/home_loading_state"
+        tools:visibility="gone" />
 </androidx.constraintlayout.widget.ConstraintLayout>
