@@ -83,7 +83,7 @@ class HomeFragment : Fragment() {
     private fun showErrorSnackbar() {
         hideShimmer()
         Snackbar.make(requireView(), R.string.latest_news_error, Snackbar.LENGTH_LONG)
-            .setAction(R.string.retry_snackbar_text) {
+            .setAction(R.string.retry_text) {
                 showLatestNews()
             }.show()
     }

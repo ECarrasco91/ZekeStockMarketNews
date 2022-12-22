@@ -1,10 +1,9 @@
 <resources>
     <string name="app_name">Zeke Stock Market News</string>
-    <string name="title_activity_main2">MainActivity2</string>
     <string name="title_home">Home</string>
     <string name="title_search">Search</string>
     <string name="title_bookmarks">Bookmarks</string>
     <string name="latest_news_error">Unable to receive latest news</string>
-    <string name="retry_snackbar_text">Retry</string>
+    <string name="retry_text">Retry</string>
     <string name="search_hint">Search News</string>
 </resources>
