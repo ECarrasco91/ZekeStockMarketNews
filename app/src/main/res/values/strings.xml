@@ -7,4 +7,9 @@
     <string name="retry_text">Retry</string>
     <string name="search_hint">Search News</string>
     <string name="no_bookmarks_text">No Bookmarks</string>
+    <string name="clear_bookmarks">Clear Bookmarks</string>
+    <string name="dialog_title">Confirm clear bookmarks</string>
+    <string name="dialog_message">Do you really want to clear all bookmarks?</string>
+    <string name="negative_button_text">Cancel</string>
+    <string name="positive_button_text">Yes</string>
 </resources>
