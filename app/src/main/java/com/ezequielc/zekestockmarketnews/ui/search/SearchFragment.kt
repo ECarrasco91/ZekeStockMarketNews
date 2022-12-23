@@ -14,19 +14,21 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ezequielc.zekestockmarketnews.adapters.SearchLoadStateAdapter
 import com.ezequielc.zekestockmarketnews.adapters.SearchPagingAdapter
+import com.ezequielc.zekestockmarketnews.data.NewsArticle
 import com.ezequielc.zekestockmarketnews.databinding.FragmentSearchBinding
+import com.ezequielc.zekestockmarketnews.interfaces.OnNewsArticleClickListener
 import com.ezequielc.zekestockmarketnews.util.asMergedLoadStates
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(), OnNewsArticleClickListener {
 
     private var _binding: FragmentSearchBinding? = null
 
     private val binding get() = _binding!!
     private val searchViewModel: SearchViewModel by viewModels()
-    private val searchPagingAdapter = SearchPagingAdapter()
+    private val searchPagingAdapter = SearchPagingAdapter(this)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,6 +55,10 @@ class SearchFragment : Fragment() {
                 else -> false
             }
         }
+    }
+
+    override fun onBookmarkClick(newsArticle: NewsArticle) {
+        searchViewModel.onBookmarkClick(newsArticle)
     }
 
     override fun onDestroyView() {

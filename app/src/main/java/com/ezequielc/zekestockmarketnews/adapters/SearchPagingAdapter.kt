@@ -5,14 +5,16 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import com.ezequielc.zekestockmarketnews.data.NewsArticle
 import com.ezequielc.zekestockmarketnews.databinding.NewsListItemBinding
+import com.ezequielc.zekestockmarketnews.interfaces.OnNewsArticleClickListener
 
-class SearchPagingAdapter :
-    PagingDataAdapter<NewsArticle, NewsArticleViewHolder>(NewsArticleComparator()) {
+class SearchPagingAdapter(
+    private val listener: OnNewsArticleClickListener
+) : PagingDataAdapter<NewsArticle, NewsArticleViewHolder>(NewsArticleComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsArticleViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = NewsListItemBinding.inflate(layoutInflater, parent, false)
-        return NewsArticleViewHolder(binding)
+        return NewsArticleViewHolder(binding, listener)
     }
 
     override fun onBindViewHolder(holder: NewsArticleViewHolder, position: Int) {

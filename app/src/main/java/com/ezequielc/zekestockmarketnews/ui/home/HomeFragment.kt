@@ -10,7 +10,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ezequielc.zekestockmarketnews.R
 import com.ezequielc.zekestockmarketnews.adapters.NewsArticleListAdapter
+import com.ezequielc.zekestockmarketnews.data.NewsArticle
 import com.ezequielc.zekestockmarketnews.databinding.FragmentHomeBinding
+import com.ezequielc.zekestockmarketnews.interfaces.OnNewsArticleClickListener
 import com.ezequielc.zekestockmarketnews.util.DEFAULT_KEY
 import com.ezequielc.zekestockmarketnews.util.REFRESH_KEY
 import com.ezequielc.zekestockmarketnews.util.Resource
@@ -20,14 +22,14 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), OnNewsArticleClickListener {
 
     private var _binding: FragmentHomeBinding? = null
     private var latestNewsJob: Job? = null
 
     private val binding get() = _binding!!
     private val homeViewModel: HomeViewModel by viewModels()
-    private val latestNewsListAdapter = NewsArticleListAdapter()
+    private val latestNewsListAdapter = NewsArticleListAdapter(this)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,6 +56,10 @@ class HomeFragment : Fragment() {
         }
 
         showLatestNews()
+    }
+
+    override fun onBookmarkClick(newsArticle: NewsArticle) {
+        homeViewModel.onBookmarkClick(newsArticle)
     }
 
     override fun onDestroyView() {

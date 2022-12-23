@@ -2,11 +2,13 @@ package com.ezequielc.zekestockmarketnews.ui.search
 
 import androidx.lifecycle.*
 import androidx.paging.cachedIn
+import com.ezequielc.zekestockmarketnews.data.NewsArticle
 import com.ezequielc.zekestockmarketnews.repository.NewsRepository
 import com.ezequielc.zekestockmarketnews.util.QUERY_DEFAULT
 import com.ezequielc.zekestockmarketnews.util.QUERY_KEY
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,5 +32,13 @@ class SearchViewModel @Inject constructor(
 
     fun searchNews(query: String) {
         this.query.value = query
+    }
+
+    fun onBookmarkClick(newsArticle: NewsArticle) {
+        val isBookmarked = newsArticle.isBookmarked
+        val updatedArticle = newsArticle.copy(isBookmarked = !isBookmarked)
+        viewModelScope.launch {
+            repository.updateArticle(updatedArticle)
+        }
     }
 }

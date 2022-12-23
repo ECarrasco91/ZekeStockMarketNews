@@ -9,18 +9,22 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ezequielc.zekestockmarketnews.adapters.NewsArticleListAdapter
+import com.ezequielc.zekestockmarketnews.data.NewsArticle
 import com.ezequielc.zekestockmarketnews.databinding.FragmentBookmarksBinding
+import com.ezequielc.zekestockmarketnews.interfaces.OnNewsArticleClickListener
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class BookmarksFragment : Fragment() {
+@AndroidEntryPoint
+class BookmarksFragment : Fragment(), OnNewsArticleClickListener {
 
     private var _binding: FragmentBookmarksBinding? = null
     private var bookmarkedNewsJob: Job? = null
 
     private val binding get() = _binding!!
     private val bookmarksViewModel: BookmarksViewModel by viewModels()
-    private val bookmarkNewsAdapter = NewsArticleListAdapter()
+    private val bookmarkNewsAdapter = NewsArticleListAdapter(this)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,6 +45,10 @@ class BookmarksFragment : Fragment() {
         }
 
         showBookmarkedNews()
+    }
+
+    override fun onBookmarkClick(newsArticle: NewsArticle) {
+        bookmarksViewModel.onBookmarkClick(newsArticle)
     }
 
     override fun onDestroyView() {
