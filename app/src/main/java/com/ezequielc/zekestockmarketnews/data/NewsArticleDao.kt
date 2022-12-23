@@ -27,6 +27,9 @@ interface NewsArticleDao {
             "WHERE `query` = :query ORDER BY queryPosition")
     fun getLastQueryPosition(query: String): Int?
 
+    @Query("SELECT * FROM news_article WHERE isBookmarked = 1")
+    fun getBookmarkedArticles(): Flow<List<NewsArticle>>
+
     // INSERT FUNCTIONS
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -42,6 +45,9 @@ interface NewsArticleDao {
 
     @Update
     suspend fun updateArticle(newsArticle: NewsArticle)
+
+    @Query("UPDATE news_article SET isBookmarked = 0")
+    suspend fun clearBookmarks()
 
     // DELETE FUNCTIONS
 

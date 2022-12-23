@@ -26,6 +26,10 @@ class NewsRepository @Inject constructor(
     private val newsArticleDao = db.newsArticleDao()
     private val rateLimiter = RateLimiter<String>(10, TimeUnit.MINUTES)
 
+    fun getBookmarkedArticles() = newsArticleDao.getBookmarkedArticles()
+
+    suspend fun clearBookmarks() = newsArticleDao.clearBookmarks()
+
     suspend fun updateArticle(newsArticle: NewsArticle) = newsArticleDao.updateArticle(newsArticle)
 
     fun getSearchResultPaged(query: String) : Flow<PagingData<NewsArticle>> {

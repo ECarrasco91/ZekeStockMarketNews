@@ -4,39 +4,65 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.ezequielc.zekestockmarketnews.adapters.NewsArticleListAdapter
 import com.ezequielc.zekestockmarketnews.databinding.FragmentBookmarksBinding
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class BookmarksFragment : Fragment() {
 
     private var _binding: FragmentBookmarksBinding? = null
+    private var bookmarkedNewsJob: Job? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+    private val bookmarksViewModel: BookmarksViewModel by viewModels()
+    private val bookmarkNewsAdapter = NewsArticleListAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        val bookmarksViewModel =
-            ViewModelProvider(this).get(BookmarksViewModel::class.java)
 
         _binding = FragmentBookmarksBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        return binding.root
+    }
 
-        val textView: TextView = binding.textBookmarks
-        bookmarksViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.bookmarkRecyclerview.apply {
+            adapter = bookmarkNewsAdapter
+            layoutManager = LinearLayoutManager(requireContext())
         }
-        return root
+
+        showBookmarkedNews()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        bookmarkedNewsJob?.cancel()
+    }
+
+    private fun showBookmarkedNews() {
+        bookmarkedNewsJob?.cancel()
+        bookmarkedNewsJob = lifecycleScope.launch {
+            bookmarksViewModel.bookmarks.observe(viewLifecycleOwner) { articles ->
+                binding.apply {
+                    if (articles.isEmpty()) {
+                        bookmarkRecyclerview.visibility = View.INVISIBLE
+                        noBookmarksTextview.visibility = View.VISIBLE
+                    } else {
+                        bookmarkNewsAdapter.submitList(articles)
+                        noBookmarksTextview.visibility = View.INVISIBLE
+                    }
+                }
+            }
+        }
     }
 }

@@ -6,4 +6,5 @@
     <string name="latest_news_error">Unable to receive latest news</string>
     <string name="retry_text">Retry</string>
     <string name="search_hint">Search News</string>
+    <string name="no_bookmarks_text">No Bookmarks</string>
 </resources>
