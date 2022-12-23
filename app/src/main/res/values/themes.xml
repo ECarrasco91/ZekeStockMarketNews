@@ -21,4 +21,8 @@
 
     <style name="Theme.ZekeStockMarketNews.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <style name="Theme.ZekeStockMarketNews.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="Theme.ZekeStockMarketNews.CardView.Outlined" parent="Widget.Material3.CardView.Outlined">
+        <item name="strokeColor">@color/black</item>
+    </style>
 </resources>

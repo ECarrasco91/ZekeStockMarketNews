@@ -12,4 +12,5 @@
     <string name="dialog_message">Do you really want to clear all bookmarks?</string>
     <string name="negative_button_text">Cancel</string>
     <string name="positive_button_text">Yes</string>
+    <string name="read_article_text">Read full article</string>
 </resources>

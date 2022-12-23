@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:layout_margin="@dimen/default_margin"
+    tools:context=".ui.detail.DetailFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- News Article ImageView-->
+            <ImageView
+                android:id="@+id/article_imageview"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/article_imageview_height"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/backgrounds/scenic" />
+
+            <!-- Bookmark ImageView -->
+            <ImageView
+                android:id="@+id/bookmark_imageview"
+                android:layout_width="@dimen/bookmark_width"
+                android:layout_height="@dimen/bookmark_height"
+                android:layout_margin="@dimen/bookmark_margin"
+                android:src="@drawable/ic_bookmark_border_24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Title TextView -->
+        <TextView
+            android:id="@+id/title_textview"
+            style="@style/TextAppearance.Material3.TitleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_margin"
+            tools:text="Title" />
+
+        <!-- Description TextView -->
+        <TextView
+            android:id="@+id/description_textview"
+            style="@style/TextAppearance.Material3.TitleMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_margin"
+            android:textColor="?android:attr/textColorSecondary"
+            tools:text="Description" />
+
+        <!-- Timestamp TextView -->
+        <TextView
+            android:id="@+id/timestamp_textview"
+            style="@style/TextAppearance.Material3.BodyMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_margin"
+            android:textColor="?android:attr/textColorSecondary"
+            tools:text="Timestamp" />
+
+        <!-- Source TextView -->
+        <TextView
+            android:id="@+id/source_textview"
+            style="@style/TextAppearance.Material3.BodyMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_margin"
+            android:textColor="?android:attr/textColorSecondary"
+            tools:text="Source:" />
+
+        <!-- View Article CardView -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/view_article_cardview"
+            style="@style/Theme.ZekeStockMarketNews.CardView.Outlined"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/default_margin">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_margin"
+                android:text="@string/read_article_text"/>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</ScrollView>
