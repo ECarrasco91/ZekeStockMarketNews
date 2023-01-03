@@ -3,7 +3,7 @@ package com.ezequielc.zekestockmarketnews.interfaces
 import com.ezequielc.zekestockmarketnews.data.NewsArticle
 
 /**
- * Listener used to process when user clicks on item in RecyclerView
+ * Listener used to process when user clicks on bookmark and NewsArticle in RecyclerView
  */
 interface OnNewsArticleClickListener {
 

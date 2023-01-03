@@ -8,22 +8,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.ezequielc.zekestockmarketnews.R
 import com.ezequielc.zekestockmarketnews.adapters.TickerListAdapter
+import com.ezequielc.zekestockmarketnews.data.Ticker
 import com.ezequielc.zekestockmarketnews.databinding.FragmentDetailBinding
+import com.ezequielc.zekestockmarketnews.interfaces.OnTickerClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DetailFragment : Fragment() {
+class DetailFragment : Fragment(), OnTickerClickListener {
 
     private var _binding: FragmentDetailBinding? = null
 
     private val binding get() = _binding!!
     private val args by navArgs<DetailFragmentArgs>()
     private val detailViewModel: DetailViewModel by viewModels()
-    private val tickerListAdapter = TickerListAdapter()
+    private val tickerListAdapter = TickerListAdapter(this)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -78,6 +81,12 @@ class DetailFragment : Fragment() {
                 context?.startActivity(intent)
             }
         }
+    }
+
+    override fun onTickerClick(ticker: Ticker) {
+        val title = "${ticker.exchange}:${ticker.symbol}"
+        val direction = DetailFragmentDirections.actionDetailFragmentToTickerFragment(ticker, title)
+        findNavController().navigate(direction)
     }
 
     override fun onDestroy() {

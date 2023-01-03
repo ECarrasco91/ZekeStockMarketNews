@@ -7,13 +7,16 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ezequielc.zekestockmarketnews.data.Ticker
 import com.ezequielc.zekestockmarketnews.databinding.NewsTickerItemBinding
+import com.ezequielc.zekestockmarketnews.interfaces.OnTickerClickListener
 
-class TickerListAdapter : ListAdapter<Ticker, TickerListAdapter.TickerViewHolder>(TickerComparator()) {
+class TickerListAdapter(
+    private val listener: OnTickerClickListener
+) : ListAdapter<Ticker, TickerListAdapter.TickerViewHolder>(TickerComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TickerViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = NewsTickerItemBinding.inflate(layoutInflater, parent, false)
-        return TickerViewHolder(binding)
+        return TickerViewHolder(binding, listener)
     }
 
     override fun onBindViewHolder(holder: TickerViewHolder, position: Int) {
@@ -24,12 +27,14 @@ class TickerListAdapter : ListAdapter<Ticker, TickerListAdapter.TickerViewHolder
     }
 
     class TickerViewHolder(
-        private val binding: NewsTickerItemBinding
+        private val binding: NewsTickerItemBinding,
+        private val listener: OnTickerClickListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Ticker) {
             binding.apply {
                 tickerSymbolItem.text = item.symbol
+                root.setOnClickListener { listener.onTickerClick(item) }
             }
         }
     }

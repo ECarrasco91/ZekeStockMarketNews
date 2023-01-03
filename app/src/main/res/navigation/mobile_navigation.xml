@@ -43,6 +43,9 @@
         <argument
             android:name="news_article"
             app:argType="com.ezequielc.zekestockmarketnews.data.NewsArticle" />
+        <action
+            android:id="@+id/action_detailFragment_to_tickerFragment"
+            app:destination="@id/tickerFragment" />
     </fragment>
 
     <dialog
@@ -51,4 +54,16 @@
     <action
         android:id="@+id/action_global_ClearBookmarksDialogFragment"
         app:destination="@id/clearBookmarksDialogFragment" />
+    <fragment
+        android:id="@+id/tickerFragment"
+        android:name="com.ezequielc.zekestockmarketnews.ui.ticker.TickerFragment"
+        android:label="{title}"
+        tools:layout="@layout/fragment_ticker" >
+        <argument
+            android:name="ticker"
+            app:argType="com.ezequielc.zekestockmarketnews.data.Ticker" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
 </navigation>

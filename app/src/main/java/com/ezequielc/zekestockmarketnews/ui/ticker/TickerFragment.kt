@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.navArgs
 import com.ezequielc.zekestockmarketnews.databinding.FragmentTickerBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -14,6 +15,7 @@ class TickerFragment : Fragment() {
     private var _binding: FragmentTickerBinding? = null
 
     private val binding get() = _binding!!
+    private val args by navArgs<TickerFragmentArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,6 +25,17 @@ class TickerFragment : Fragment() {
 
         _binding = FragmentTickerBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val binding = FragmentTickerBinding.bind(view)
+
+        binding.apply {
+            val ticker = args.ticker
+            companyName.text = ticker.name
+        }
     }
 
     override fun onDestroy() {
