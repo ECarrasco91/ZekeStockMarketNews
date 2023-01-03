@@ -65,11 +65,11 @@ class TickerFragment : Fragment() {
                     binding.apply {
                         currentPriceTimestamp.text = tickerPrice.timestampFormatted
                         currentPrice.text = getString(
-                            R.string.ticker_current_price, tickerPrice.currentPrice.toString()
+                            R.string.ticker_current_price, tickerPrice.currentPrice
                         )
 
-                        val percentageWithSign = tickerPrice.dayChangePercentage.toString().plus("%")
-                        showWithColor(dayChange, tickerPrice.dayChange.toString())
+                        val percentageWithSign = tickerPrice.dayChangePercentage.plus("%")
+                        showWithColor(dayChange, tickerPrice.dayChange)
                         showWithColor(dayChangePercentage, percentageWithSign)
                     }
                 }

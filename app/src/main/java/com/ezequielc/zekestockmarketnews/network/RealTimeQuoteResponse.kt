@@ -17,6 +17,11 @@ data class RealTimeQuoteResponse(
 ) {
 
     fun asModel(): TickerPrice {
-        return TickerPrice(currentPrice, dayChange, dayChangePercentage, timestamp)
+        return TickerPrice(
+            currentPrice.toString(),
+            dayChange.toString(),
+            dayChangePercentage.toString(),
+            timestamp
+        )
     }
 }

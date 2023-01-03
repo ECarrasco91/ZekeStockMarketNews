@@ -12,9 +12,9 @@ data class Ticker(
 ) : Parcelable
 
 data class TickerPrice(
-    val currentPrice: Double,
-    val dayChange: Double,
-    val dayChangePercentage: Double,
+    val currentPrice: String,
+    val dayChange: String,
+    val dayChangePercentage: String,
     val timestamp: Long,
     val pattern: String = "MMM dd 'at' h:mm a"
 ) {
