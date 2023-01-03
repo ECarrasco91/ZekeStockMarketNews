@@ -1,6 +1,7 @@
 package com.ezequielc.zekestockmarketnews.network
 
 import com.ezequielc.zekestockmarketnews.data.NewsArticle
+import com.ezequielc.zekestockmarketnews.data.Ticker
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -18,8 +19,15 @@ data class MarketNewsResponse(
         val imageUrl: String,
         @Json(name = "published_at")
         val publishedAt: String,
-        val source: String
-    )
+        val source: String,
+        val entities: List<Entities>
+    ) {
+        data class Entities(
+            val symbol: String,
+            val name: String,
+            val exchange: String
+        )
+    }
 
     fun asModel(): List<NewsArticle> {
         return data.map {
@@ -31,9 +39,19 @@ data class MarketNewsResponse(
                 date_time = it.publishedAt,
                 source = it.source,
                 article_url = it.url,
-                isBookmarked = false
+                isBookmarked = false,
+                tickers = listTickers(it.entities)
             )
         }
     }
 
+    private fun listTickers(entities: List<Data.Entities>): List<Ticker> {
+        val list = mutableListOf<Ticker>()
+        entities.forEach {
+            val ticker = Ticker(it.symbol, it.name, it.exchange)
+            list.add(ticker)
+        }
+
+        return list
+    }
 }

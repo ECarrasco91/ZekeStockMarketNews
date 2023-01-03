@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.ezequielc.zekestockmarketnews.R
+import com.ezequielc.zekestockmarketnews.adapters.TickerListAdapter
 import com.ezequielc.zekestockmarketnews.databinding.FragmentDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,6 +23,7 @@ class DetailFragment : Fragment() {
     private val binding get() = _binding!!
     private val args by navArgs<DetailFragmentArgs>()
     private val detailViewModel: DetailViewModel by viewModels()
+    private val tickerListAdapter = TickerListAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,6 +61,9 @@ class DetailFragment : Fragment() {
                     }
                 )
             }
+
+            tickersRecyclerview.adapter = tickerListAdapter
+            tickerListAdapter.submitList(newsArticle.tickers)
 
             titleTextview.text = newsArticle.title
             descriptionTextview.text = newsArticle.description

@@ -19,7 +19,8 @@ data class NewsArticle(
     val pattern: String = "EEE, MMM dd, yyyy 'at' h:mm a",
     val source: String,
     val article_url: String,
-    var isBookmarked: Boolean
+    var isBookmarked: Boolean,
+    val tickers: List<Ticker>
 ) : Parcelable {
     val timestampFormatted: String
         get() = formatTimestamp(pattern, timestamp)

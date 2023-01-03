@@ -40,6 +40,16 @@
                 tools:ignore="ContentDescription" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <!-- RecyclerView for Tickers -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/tickers_recyclerview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/news_ticker_item"
+            tools:itemCount="3" />
+
         <!-- Title TextView -->
         <TextView
             android:id="@+id/title_textview"
