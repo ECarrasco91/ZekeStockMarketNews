@@ -14,4 +14,6 @@
     <string name="positive_button_text">Yes</string>
     <string name="read_article_text">Read full article</string>
     <string name="source_text">Source: %1$s</string>
+    <string name="ticker_current_price">$%1$s</string>
+    <string name="positive_value">+%1$s</string>
 </resources>
