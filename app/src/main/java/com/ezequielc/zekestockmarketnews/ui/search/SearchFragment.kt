@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ezequielc.zekestockmarketnews.adapters.SearchLoadStateAdapter
 import com.ezequielc.zekestockmarketnews.adapters.SearchPagingAdapter
@@ -55,6 +56,11 @@ class SearchFragment : Fragment(), OnNewsArticleClickListener {
                 else -> false
             }
         }
+    }
+
+    override fun onItemClick(newsArticle: NewsArticle) {
+        val direction = SearchFragmentDirections.actionNavigationSearchToDetailFragment(newsArticle)
+        findNavController().navigate(direction)
     }
 
     override fun onBookmarkClick(newsArticle: NewsArticle) {

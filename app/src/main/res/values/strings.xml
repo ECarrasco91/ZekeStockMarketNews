@@ -13,4 +13,5 @@
     <string name="negative_button_text">Cancel</string>
     <string name="positive_button_text">Yes</string>
     <string name="read_article_text">Read full article</string>
+    <string name="source_text">Source: %1$s</string>
 </resources>

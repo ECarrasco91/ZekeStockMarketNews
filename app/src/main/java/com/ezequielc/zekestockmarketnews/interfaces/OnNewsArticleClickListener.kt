@@ -7,5 +7,7 @@ import com.ezequielc.zekestockmarketnews.data.NewsArticle
  */
 interface OnNewsArticleClickListener {
 
+    fun onItemClick(newsArticle: NewsArticle)
+
     fun onBookmarkClick(newsArticle: NewsArticle)
 }

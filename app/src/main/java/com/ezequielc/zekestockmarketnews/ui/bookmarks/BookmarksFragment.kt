@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ezequielc.zekestockmarketnews.adapters.NewsArticleListAdapter
 import com.ezequielc.zekestockmarketnews.data.NewsArticle
@@ -45,6 +46,11 @@ class BookmarksFragment : Fragment(), OnNewsArticleClickListener {
         }
 
         showBookmarkedNews()
+    }
+
+    override fun onItemClick(newsArticle: NewsArticle) {
+        val direction = BookmarksFragmentDirections.actionNavigationBookmarksToDetailFragment(newsArticle)
+        findNavController().navigate(direction)
     }
 
     override fun onBookmarkClick(newsArticle: NewsArticle) {

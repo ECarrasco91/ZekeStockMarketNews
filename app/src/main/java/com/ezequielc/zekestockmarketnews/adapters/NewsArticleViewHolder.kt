@@ -14,6 +14,8 @@ class NewsArticleViewHolder(
 
     fun bind(item: NewsArticle) {
         binding.apply {
+            root.setOnClickListener { listener.onItemClick(item) }
+
             Glide.with(itemView)
                 .load(item.image_url)
                 .error(R.drawable.ic_image_error_24dp)
