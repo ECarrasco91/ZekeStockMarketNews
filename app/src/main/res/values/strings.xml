@@ -16,4 +16,9 @@
     <string name="source_text">Source: %1$s</string>
     <string name="ticker_current_price">$%1$s</string>
     <string name="positive_value">+%1$s</string>
+    <string name="open_entry_text">Open: %1$s</string>
+    <string name="high_entry_text">High: %1$s</string>
+    <string name="low_entry_text">Low: %1$s</string>
+    <string name="close_entry_text">Close: %1$s</string>
+    <string name="volume_entry_text">Volume: %1$s</string>
 </resources>
