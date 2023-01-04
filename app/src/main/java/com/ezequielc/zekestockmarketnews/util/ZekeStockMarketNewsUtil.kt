@@ -1,8 +1,12 @@
 package com.ezequielc.zekestockmarketnews.util
 
+import com.ezequielc.zekestockmarketnews.data.ChartTimeframe
 import java.text.SimpleDateFormat
 import java.time.Instant
+import java.util.Calendar
 import java.util.Date
+import kotlin.math.ln
+import kotlin.math.pow
 
 fun convertToTimestamp(date: String) = Instant.parse(date).epochSecond
 
@@ -12,3 +16,31 @@ fun formatTimestamp(pattern: String, value: Long): String {
     return simpleDateFormat.format(date)
 }
 
+fun calculateTimeframe(toTimestamp: Long): ChartTimeframe {
+    val interval = "1" // 1 minute interval
+
+    val pattern = "MM.ddyyyy-hh:mm:ss"
+    val timestampFormatted = formatTimestamp(pattern, toTimestamp)
+
+    val openTime = "-09:30:00"
+    val split = timestampFormatted.split("-")
+    val openTimeFormatted = split[0].plus(openTime)
+
+    val simpleDateFormat = SimpleDateFormat(pattern)
+    val date = simpleDateFormat.parse(openTimeFormatted)
+
+    val calendar = Calendar.getInstance()
+    calendar.time = date!!
+
+    val from = date.time / 1000
+    return ChartTimeframe(interval, from)
+}
+
+// Formats volume value with a metric prefix
+// If the volume is greater than 1000, the appropriate metric prefix is appended to the volume
+// e.g. 1K or 100.1K, 2M or 200.2M, 3B or 300.3B, etc.
+fun formatVolume(volume: Long): String {
+    if (volume < 1000) return "" + volume
+    val exp = (ln(volume.toDouble()) / ln(1000.0)).toInt()
+    return String.format("%.1f%c", volume / 1000.0.pow(exp.toDouble()), "KMBTQ"[exp - 1])
+}

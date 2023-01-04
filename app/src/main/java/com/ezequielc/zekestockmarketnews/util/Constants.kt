@@ -13,3 +13,4 @@ const val QUERY_KEY = "query"
 const val QUERY_DEFAULT = ""
 const val FINNHUB_TOKEN = BuildConfig.FINNHUB_API_TOKEN
 const val FINNHUB_BASE_URL = "https://finnhub.io/api/v1/"
+const val CHART_LABEL = ""
