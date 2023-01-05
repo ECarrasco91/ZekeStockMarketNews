@@ -16,7 +16,7 @@ data class CandleStickDataResponse(
     val openPrices: List<Double>,
     @Json(name = "s")
     val status: String,
-    @Json(name = "c")
+    @Json(name = "t")
     val timestamps: List<Long>,
     @Json(name = "v")
     val volumes: List<Long>

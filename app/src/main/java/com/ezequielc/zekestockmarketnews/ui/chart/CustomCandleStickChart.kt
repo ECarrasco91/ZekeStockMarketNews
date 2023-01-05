@@ -45,13 +45,15 @@ class CustomCandleStickChart(private val context: Context) {
     }
 
     fun styleCandleDataSet(candleDataSet: CandleDataSet) = candleDataSet.apply {
+        candleDataSet.highLightColor = getColorInt(R.color.black)
+
         candleDataSet.shadowColor = getColorInt(R.color.darker_gray)
         candleDataSet.shadowWidth = 0.7f
 
-        candleDataSet.decreasingColor = getColor(R.color.red)
+        candleDataSet.decreasingColor = getColorInt(R.color.red)
         candleDataSet.decreasingPaintStyle = Paint.Style.FILL
 
-        candleDataSet.increasingColor = getColor(R.color.green)
+        candleDataSet.increasingColor = getColorInt(R.color.green)
         candleDataSet.increasingPaintStyle = Paint.Style.FILL
     }
 

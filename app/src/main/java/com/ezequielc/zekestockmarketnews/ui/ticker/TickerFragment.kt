@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.ezequielc.zekestockmarketnews.R
 import com.ezequielc.zekestockmarketnews.databinding.FragmentTickerBinding
+import com.ezequielc.zekestockmarketnews.ui.chart.CustomCandleStickChart
 import com.ezequielc.zekestockmarketnews.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -43,6 +44,9 @@ class TickerFragment : Fragment() {
         val binding = FragmentTickerBinding.bind(view)
 
         binding.apply {
+            chart.setNoDataTextColor(getColorInt(R.color.black))
+            chart.setNoDataText("Loading...")
+
             val ticker = args.ticker
             companyName.text = ticker.name
 
@@ -72,8 +76,32 @@ class TickerFragment : Fragment() {
                         showWithColor(dayChange, tickerPrice.dayChange)
                         showWithColor(dayChangePercentage, percentageWithSign)
                     }
+
+                    setCandleStickData(symbol, tickerPrice.timestamp)
                 }
             }
+        }
+    }
+
+    private fun setCandleStickData(symbol: String, timestamp: Long) {
+        lifecycleScope.launch {
+            tickerViewModel.setCandleStickData(symbol, timestamp)
+                .observe(viewLifecycleOwner) { resource ->
+                    if (resource is Resource.Success) {
+                        val candleStickChartData = resource.data!!
+                        val customCandleStickChart = CustomCandleStickChart(requireContext())
+                        customCandleStickChart.styleCandleDataSet(candleStickChartData.candleDataSet)
+                        customCandleStickChart.styleChart(binding.chart, candleStickChartData)
+                    }
+
+                    if (resource is Resource.Error) {
+                        binding.chart.apply {
+                            setNoDataText("Unable to display chart")
+                            notifyDataSetChanged()
+                            invalidate()
+                        }
+                    }
+                }
         }
     }
 

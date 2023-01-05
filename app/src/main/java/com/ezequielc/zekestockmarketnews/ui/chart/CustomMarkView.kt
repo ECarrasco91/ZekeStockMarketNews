@@ -24,8 +24,6 @@ class CustomMarkView(
     private val timeEntryTextView = findViewById<TextView>(R.id.time_entry_textview)
 
     override fun refreshContent(e: Entry?, highlight: Highlight?) {
-        super.refreshContent(e, highlight)
-
         val candleEntry = e as CandleEntry
         openEntryTextView.text = getString(R.string.open_entry_text, candleEntry.open.toString())
         highEntryTextView.text = getString(R.string.high_entry_text, candleEntry.high.toString())
@@ -34,6 +32,8 @@ class CustomMarkView(
         volumeEntryTextView.text =
             getString(R.string.volume_entry_text, candleEntryVolume!![candleEntry.x.toInt()])
         timeEntryTextView.text = candleEntryTime!![candleEntry.x.toInt()]
+
+        super.refreshContent(e, highlight)
     }
 
     private fun getString(int: Int, args: String) = context?.resources?.getString(int, args)

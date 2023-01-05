@@ -69,11 +69,10 @@ class TickerRepository @Inject constructor(
             val timeEntries = mutableListOf<String>()
 
             val response = getCandleStickData(symbol, timestamp)
-
-            val candleStickDataList = handleCandleStickDataResponse(response)
+            val candleStickDataList = handleResponse(response)
             candleStickDataList.forEach { candleStickData ->
                 // Adding X-axis Values and Time Values for each CandleStick
-                val pattern = "h:mm: a"
+                val pattern = "h:mm a"
                 val formattedValues = formatTimestamp(pattern, candleStickData.timestamp)
                 xAxisValues.add(formattedValues)
                 timeEntries.add(formattedValues)
@@ -92,22 +91,22 @@ class TickerRepository @Inject constructor(
                         candleStickData.closePrice.toFloat()
                     )
                 )
+            }
 
-                try {
-                    val candleDataSet = CandleDataSet(candleStickEntries, CHART_LABEL)
-                    val candleStickChartData =
-                        CandleStickChartData(candleDataSet, xAxisValues, volumeEntries, timeEntries)
-                    emit(Resource.Success(candleStickChartData))
+            try {
+                if (candleStickEntries.isEmpty()) throw Exception()
 
-                    if (candleStickEntries.isEmpty()) throw Exception()
-                } catch (exception: Exception) {
-                    emit(Resource.Error(error = exception.toString()))
-                }
+                val candleDataSet = CandleDataSet(candleStickEntries, CHART_LABEL)
+                val candleStickChartData =
+                    CandleStickChartData(candleDataSet, xAxisValues, volumeEntries, timeEntries)
+                emit(Resource.Success(candleStickChartData))
+            } catch (exception: Exception) {
+                emit(Resource.Error(error = exception.toString()))
             }
         }
     }
 
-    private suspend fun handleCandleStickDataResponse(
+    private suspend fun handleResponse(
         data: Flow<Resource<List<CandleStickData>>>
     ): List<CandleStickData> {
         var tempList = emptyList<CandleStickData>()
