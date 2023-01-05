@@ -48,7 +48,7 @@ class TickerFragment : Fragment() {
             chart.setNoDataText("Loading...")
 
             val ticker = args.ticker
-            companyName.text = ticker.name
+            companyNameTextview.text = ticker.name
 
             showTickerPrice(ticker.symbol)
         }
@@ -67,14 +67,14 @@ class TickerFragment : Fragment() {
                 if (resource is Resource.Success) {
                     val tickerPrice = resource.data!!
                     binding.apply {
-                        currentPriceTimestamp.text = tickerPrice.timestampFormatted
-                        currentPrice.text = getString(
+                        currentTimestampTextview.text = tickerPrice.timestampFormatted
+                        currentPriceTextview.text = getString(
                             R.string.ticker_current_price, tickerPrice.currentPrice
                         )
 
                         val percentageWithSign = tickerPrice.dayChangePercentage.plus("%")
-                        showWithColor(dayChange, tickerPrice.dayChange)
-                        showWithColor(dayChangePercentage, percentageWithSign)
+                        showWithColor(dayChangeTextview, tickerPrice.dayChange)
+                        showWithColor(percentageChangeTextview, percentageWithSign)
                     }
 
                     setCandleStickData(symbol, tickerPrice.timestamp)
