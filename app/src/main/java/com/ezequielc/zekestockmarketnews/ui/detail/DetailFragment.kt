@@ -16,6 +16,7 @@ import com.ezequielc.zekestockmarketnews.adapters.TickerListAdapter
 import com.ezequielc.zekestockmarketnews.data.Ticker
 import com.ezequielc.zekestockmarketnews.databinding.FragmentDetailBinding
 import com.ezequielc.zekestockmarketnews.interfaces.OnTickerClickListener
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -82,13 +83,21 @@ class DetailFragment : Fragment(), OnTickerClickListener {
     }
 
     override fun onTickerClick(ticker: Ticker) {
-        val title = "${ticker.exchange}:${ticker.symbol}"
-        val direction = DetailFragmentDirections.actionDetailFragmentToTickerFragment(ticker, title)
-        findNavController().navigate(direction)
+        if (ticker.exchange == "NASDAQ" || ticker.exchange == "NYSE") {
+            val title = "${ticker.exchange}:${ticker.symbol}"
+            val direction = DetailFragmentDirections.actionDetailFragmentToTickerFragment(ticker, title)
+            findNavController().navigate(direction)
+        } else {
+            showErrorSnackbar()
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    private fun showErrorSnackbar() {
+        Snackbar.make(requireView(), R.string.non_us_ticker_error, Snackbar.LENGTH_LONG).show()
     }
 }

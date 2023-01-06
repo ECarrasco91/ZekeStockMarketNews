@@ -21,4 +21,6 @@
     <string name="low_entry_text">Low: %1$s</string>
     <string name="close_entry_text">Close: %1$s</string>
     <string name="volume_entry_text">Volume: %1$s</string>
+    <string name="non_us_ticker_error">Unable to view this ticker at this time
+        \nTry tickers from the United States</string>
 </resources>
