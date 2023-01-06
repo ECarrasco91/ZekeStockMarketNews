@@ -95,6 +95,7 @@ class HomeFragment : Fragment(), OnNewsArticleClickListener {
     private fun showErrorSnackbar() {
         hideShimmer()
         Snackbar.make(requireView(), R.string.latest_news_error, Snackbar.LENGTH_LONG)
+            .setAnchorView(R.id.nav_view)
             .setAction(R.string.retry_text) {
                 showLatestNews()
             }.show()

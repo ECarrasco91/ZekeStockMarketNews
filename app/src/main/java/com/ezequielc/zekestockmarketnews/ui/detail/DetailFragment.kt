@@ -98,6 +98,8 @@ class DetailFragment : Fragment(), OnTickerClickListener {
     }
 
     private fun showErrorSnackbar() {
-        Snackbar.make(requireView(), R.string.non_us_ticker_error, Snackbar.LENGTH_LONG).show()
+        Snackbar.make(requireView(), R.string.non_us_ticker_error, Snackbar.LENGTH_LONG)
+            .setAnchorView(R.id.nav_view)
+            .show()
     }
 }
