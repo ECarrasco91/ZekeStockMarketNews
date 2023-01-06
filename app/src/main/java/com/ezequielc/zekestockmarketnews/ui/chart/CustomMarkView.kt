@@ -3,6 +3,7 @@ package com.ezequielc.zekestockmarketnews.ui.chart
 import android.content.Context
 import android.widget.TextView
 import com.ezequielc.zekestockmarketnews.R
+import com.ezequielc.zekestockmarketnews.util.getString
 import com.github.mikephil.charting.components.MarkerView
 import com.github.mikephil.charting.data.CandleEntry
 import com.github.mikephil.charting.data.Entry
@@ -25,16 +26,14 @@ class CustomMarkView(
 
     override fun refreshContent(e: Entry?, highlight: Highlight?) {
         val candleEntry = e as CandleEntry
-        openEntryTextView.text = getString(R.string.open_entry_text, candleEntry.open.toString())
-        highEntryTextView.text = getString(R.string.high_entry_text, candleEntry.high.toString())
-        lowEntryTextView.text = getString(R.string.low_entry_text, candleEntry.low.toString())
-        closeEntryTextView.text = getString(R.string.close_entry_text, candleEntry.close.toString())
+        openEntryTextView.text = getString(context, R.string.open_entry_text, candleEntry.open.toString())
+        highEntryTextView.text = getString(context, R.string.high_entry_text, candleEntry.high.toString())
+        lowEntryTextView.text = getString(context, R.string.low_entry_text, candleEntry.low.toString())
+        closeEntryTextView.text = getString(context, R.string.close_entry_text, candleEntry.close.toString())
         volumeEntryTextView.text =
-            getString(R.string.volume_entry_text, candleEntryVolume!![candleEntry.x.toInt()])
+            getString(context, R.string.volume_entry_text, candleEntryVolume!![candleEntry.x.toInt()])
         timeEntryTextView.text = candleEntryTime!![candleEntry.x.toInt()]
 
         super.refreshContent(e, highlight)
     }
-
-    private fun getString(int: Int, args: String) = context?.resources?.getString(int, args)
 }

@@ -71,9 +71,7 @@ class DetailFragment : Fragment(), OnTickerClickListener {
             titleTextview.text = newsArticle.title
             descriptionTextview.text = newsArticle.description
             timestampTextview.text = newsArticle.timestampFormatted
-            sourceTextview.text = context?.resources?.getString(
-                R.string.source_text, newsArticle.source
-            )
+            sourceTextview.text = getString(R.string.source_text, newsArticle.source)
 
             viewArticleCardview.setOnClickListener {
                 val uri = Uri.parse(newsArticle.article_url)

@@ -2,9 +2,9 @@ package com.ezequielc.zekestockmarketnews.ui.chart
 
 import android.content.Context
 import android.graphics.Paint
-import androidx.core.content.ContextCompat
 import com.ezequielc.zekestockmarketnews.R
 import com.ezequielc.zekestockmarketnews.data.CandleStickChartData
+import com.ezequielc.zekestockmarketnews.util.getColorInt
 import com.github.mikephil.charting.charts.CandleStickChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.CandleData
@@ -45,17 +45,15 @@ class CustomCandleStickChart(private val context: Context) {
     }
 
     fun styleCandleDataSet(candleDataSet: CandleDataSet) = candleDataSet.apply {
-        candleDataSet.highLightColor = getColorInt(R.color.black)
+        candleDataSet.highLightColor = getColorInt(context, R.color.black)
 
-        candleDataSet.shadowColor = getColorInt(R.color.darker_gray)
+        candleDataSet.shadowColor = getColorInt(context, R.color.darker_gray)
         candleDataSet.shadowWidth = 0.7f
 
-        candleDataSet.decreasingColor = getColorInt(R.color.red)
+        candleDataSet.decreasingColor = getColorInt(context, R.color.red)
         candleDataSet.decreasingPaintStyle = Paint.Style.FILL
 
-        candleDataSet.increasingColor = getColorInt(R.color.green)
+        candleDataSet.increasingColor = getColorInt(context, R.color.green)
         candleDataSet.increasingPaintStyle = Paint.Style.FILL
     }
-
-    private fun getColorInt(color: Int) = ContextCompat.getColor(context, color)
 }

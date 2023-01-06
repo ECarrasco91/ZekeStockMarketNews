@@ -1,5 +1,7 @@
 package com.ezequielc.zekestockmarketnews.util
 
+import android.content.Context
+import androidx.core.content.ContextCompat
 import com.ezequielc.zekestockmarketnews.data.ChartTimeframe
 import java.text.SimpleDateFormat
 import java.time.Instant
@@ -7,6 +9,10 @@ import java.util.Calendar
 import java.util.Date
 import kotlin.math.ln
 import kotlin.math.pow
+
+fun getString(context: Context, int: Int, args: String) = context.resources?.getString(int, args)
+
+fun getColorInt(context: Context?, color: Int) = ContextCompat.getColor(context!!, color)
 
 fun convertToTimestamp(date: String) = Instant.parse(date).epochSecond
 
