@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Zeke Stock Market News</string>
+    <string name="app_name">Zeke Market News</string>
     <string name="title_home">Home</string>
     <string name="title_search">Search</string>
     <string name="title_bookmarks">Bookmarks</string>
@@ -23,4 +23,7 @@
     <string name="volume_entry_text">Volume: %1$s</string>
     <string name="non_us_ticker_error">Unable to view this ticker at this time
         \nTry tickers from the United States</string>
+    <string name="us_ticker_error">Unable to get current price at this time</string>
+    <string name="chart_loading_text">Loading…</string>
+    <string name="chart_error_text">Unable to display chart</string>
 </resources>

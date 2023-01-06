@@ -45,7 +45,7 @@ class TickerFragment : Fragment() {
 
         binding.apply {
             chart.setNoDataTextColor(getColorInt(context, R.color.black))
-            chart.setNoDataText("Loading...")
+            chart.setNoDataText(getString(R.string.chart_loading_text))
 
             val ticker = args.ticker
             companyNameTextview.text = ticker.name
@@ -79,6 +79,11 @@ class TickerFragment : Fragment() {
 
                     setCandleStickData(symbol, tickerPrice.timestamp)
                 }
+
+                if (resource is Resource.Error) {
+                    binding.currentTimestampTextview.text = getString(R.string.us_ticker_error)
+                    updateChartWithErrorMsg()
+                }
             }
         }
     }
@@ -87,19 +92,13 @@ class TickerFragment : Fragment() {
         lifecycleScope.launch {
             tickerViewModel.setCandleStickData(symbol, timestamp)
                 .observe(viewLifecycleOwner) { resource ->
+                    if (resource is Resource.Error) updateChartWithErrorMsg()
+
                     if (resource is Resource.Success) {
                         val candleStickChartData = resource.data!!
                         val customCandleStickChart = CustomCandleStickChart(requireContext())
                         customCandleStickChart.styleCandleDataSet(candleStickChartData.candleDataSet)
                         customCandleStickChart.styleChart(binding.chart, candleStickChartData)
-                    }
-
-                    if (resource is Resource.Error) {
-                        binding.chart.apply {
-                            setNoDataText("Unable to display chart")
-                            notifyDataSetChanged()
-                            invalidate()
-                        }
                     }
                 }
         }
@@ -116,6 +115,14 @@ class TickerFragment : Fragment() {
                     getColorInt(context, R.color.green)
                 }
             )
+        }
+    }
+
+    private fun updateChartWithErrorMsg() {
+        binding.chart.apply {
+            setNoDataText(getString(R.string.chart_error_text))
+            notifyDataSetChanged()
+            invalidate()
         }
     }
 }
