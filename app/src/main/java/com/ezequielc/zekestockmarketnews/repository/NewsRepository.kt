@@ -14,6 +14,7 @@ import com.ezequielc.zekestockmarketnews.util.NetworkBoundResource
 import com.ezequielc.zekestockmarketnews.util.RateLimiter
 import com.ezequielc.zekestockmarketnews.util.Resource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -45,12 +46,32 @@ class NewsRepository @Inject constructor(
             override fun processResponse(response: MarketNewsResponse) = response.asModel()
 
             override suspend fun saveCallResult(item: List<NewsArticle>) {
-                val latestNews = item.map { newsArticle ->
+                val bookmarkedArticles = newsArticleDao.getBookmarkedArticles().first()
+
+                val latestNewsArticles = item.map { latestNewsArticle ->
+                    val isBookmarked = bookmarkedArticles.any { bookmarkedArticle ->
+                        bookmarkedArticle.uuid == latestNewsArticle.uuid
+                    }
+
+                    NewsArticle(
+                        uuid = latestNewsArticle.uuid,
+                        title = latestNewsArticle.title,
+                        description = latestNewsArticle.description,
+                        image_url = latestNewsArticle.image_url,
+                        date_time = latestNewsArticle.date_time,
+                        source = latestNewsArticle.source,
+                        article_url = latestNewsArticle.article_url,
+                        isBookmarked = isBookmarked,
+                        tickers = latestNewsArticle.tickers
+                    )
+                }
+
+                val latestNews = latestNewsArticles.map { newsArticle ->
                     LatestNews(newsArticle, newsArticle.uuid)
                 }
 
                 db.withTransaction {
-                    newsArticleDao.insertArticles(item)
+                    newsArticleDao.insertArticles(latestNewsArticles)
                     newsArticleDao.insertLatestArticles(latestNews)
                 }
             }

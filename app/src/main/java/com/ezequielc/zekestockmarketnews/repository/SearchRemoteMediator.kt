@@ -10,6 +10,7 @@ import com.ezequielc.zekestockmarketnews.data.SearchQueryRemoteKey
 import com.ezequielc.zekestockmarketnews.data.SearchResults
 import com.ezequielc.zekestockmarketnews.network.StockDataService
 import com.ezequielc.zekestockmarketnews.util.STOCK_DATA_STARTING_PAGE_INDEX
+import kotlinx.coroutines.flow.first
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -45,6 +46,26 @@ class SearchRemoteMediator(
             val response = service.querySearchResults(search = query, page = page)
             val articles = response.asModel()
 
+            val bookmarkedArticles = newsArticleDao.getBookmarkedArticles().first()
+
+            val searchResultArticles = articles.map { searchResultArticle ->
+                val isBookmarked = bookmarkedArticles.any { bookmarkedArticle ->
+                    bookmarkedArticle.uuid == searchResultArticle.uuid
+                }
+
+                NewsArticle(
+                    uuid = searchResultArticle.uuid,
+                    title = searchResultArticle.title,
+                    description = searchResultArticle.description,
+                    image_url = searchResultArticle.image_url,
+                    date_time = searchResultArticle.date_time,
+                    source = searchResultArticle.source,
+                    article_url = searchResultArticle.article_url,
+                    isBookmarked = isBookmarked,
+                    tickers = searchResultArticle.tickers
+                )
+            }
+
             db.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     remoteKeyDao.deleteSearchQuery(query)
@@ -54,13 +75,13 @@ class SearchRemoteMediator(
                 val lastQueryPosition = newsArticleDao.getLastQueryPosition(query) ?: 0
                 var queryPosition = lastQueryPosition + 1
 
-                val searchResults = articles.map { article ->
+                val searchResults = searchResultArticles.map { article ->
                     SearchResults(query, queryPosition++, article, article.uuid)
                 }
 
                 val nextPageKey = page + 1
 
-                newsArticleDao.insertArticles(articles)
+                newsArticleDao.insertArticles(searchResultArticles)
                 newsArticleDao.insertSearchResults(searchResults)
                 remoteKeyDao.insert(SearchQueryRemoteKey(query, nextPageKey))
 
