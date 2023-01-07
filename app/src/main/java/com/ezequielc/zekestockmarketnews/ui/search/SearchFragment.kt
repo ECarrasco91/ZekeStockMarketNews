@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ezequielc.zekestockmarketnews.adapters.SearchLoadStateAdapter
 import com.ezequielc.zekestockmarketnews.adapters.SearchPagingAdapter
@@ -21,6 +22,8 @@ import com.ezequielc.zekestockmarketnews.interfaces.OnNewsArticleClickListener
 import com.ezequielc.zekestockmarketnews.util.asMergedLoadStates
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.filter
 
 @AndroidEntryPoint
 class SearchFragment : Fragment(), OnNewsArticleClickListener {
@@ -107,9 +110,16 @@ class SearchFragment : Fragment(), OnNewsArticleClickListener {
         }
 
         lifecycleScope.launchWhenCreated {
-            // Use a state-machine to track LoadStates such that we only transition to
-            // NotLoading from a RemoteMediator load if it was also presented to UI.
-            searchPagingAdapter.loadStateFlow.asMergedLoadStates()
+            searchPagingAdapter.loadStateFlow
+                // Use a state-machine to track LoadStates such that we only transition to
+                // NotLoading from a RemoteMediator load if it was also presented to UI.
+                .asMergedLoadStates()
+                // Emit only when REFRESH changes, as we want to react only to loads that replace the list.
+                .distinctUntilChangedBy { it.refresh }
+                // Only react to cases where REFRESH completes, such as when the state is NotLoading.
+                .filter { it.refresh is LoadState.NotLoading }
+                // Scroll to the top synchronously with UI updates, even if a remote load was triggered.
+                .collect { binding.searchResultsRecyclerview.scrollToPosition(0) }
         }
     }
 }

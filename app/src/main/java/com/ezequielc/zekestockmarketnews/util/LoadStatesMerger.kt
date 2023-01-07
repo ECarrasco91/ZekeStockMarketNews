@@ -92,7 +92,7 @@ private class LoadStatesMerger {
             }
             MergedState.SOURCE_LOADING -> when {
                 sourceRefreshState is PagingSource.LoadResult.Error<*, *> -> sourceRefreshState to MergedState.SOURCE_ERROR
-                remoteState is PagingSource.LoadResult.Error<*, *> -> LoadState.Loading to MergedState.REMOTE_ERROR
+                remoteState is PagingSource.LoadResult.Error<*, *> -> remoteState to MergedState.REMOTE_ERROR
                 sourceRefreshState is LoadState.NotLoading -> {
                     LoadState.NotLoading(remoteState.endOfPaginationReached) to MergedState.NOT_LOADING
                 }

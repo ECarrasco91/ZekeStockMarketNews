@@ -22,6 +22,10 @@ class SearchRemoteMediator(
     private val newsArticleDao = db.newsArticleDao()
     private val remoteKeyDao = db.searchQueryRemoteKeyDao()
 
+    override suspend fun initialize(): InitializeAction {
+        return InitializeAction.LAUNCH_INITIAL_REFRESH
+    }
+
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, NewsArticle>,
