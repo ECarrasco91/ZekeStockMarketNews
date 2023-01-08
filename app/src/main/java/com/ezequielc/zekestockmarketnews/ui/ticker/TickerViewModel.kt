@@ -13,6 +13,6 @@ class TickerViewModel @Inject constructor(
 
     suspend fun getRealTimeQuote(symbol: String) = repository.getRealTimeQuote(symbol).asLiveData()
 
-    suspend fun setCandleStickData(symbol: String, timestamp: Long) =
-        repository.setCandleStickData(symbol, timestamp).asLiveData()
+    suspend fun setCandleStickData(symbol: String, timestamp: Long, timeframe: String) =
+        repository.setCandleStickData(symbol, timestamp, timeframe).asLiveData()
 }

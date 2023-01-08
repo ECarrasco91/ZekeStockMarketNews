@@ -5,4 +5,6 @@
     <dimen name="bookmark_width">36dp</dimen>
     <dimen name="bookmark_height">36dp</dimen>
     <dimen name="bookmark_margin">16dp</dimen>
+    <dimen name="material_button_width">48dp</dimen>
+    <dimen name="material_button_text_size">11sp</dimen>
 </resources>

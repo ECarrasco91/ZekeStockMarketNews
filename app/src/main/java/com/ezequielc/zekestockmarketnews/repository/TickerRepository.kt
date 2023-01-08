@@ -54,6 +54,7 @@ class TickerRepository @Inject constructor(
     suspend fun setCandleStickData(
         symbol: String,
         timestamp: Long,
+        timeframe: String
     ): Flow<Resource<CandleStickChartData>> {
         return flow {
             // X-axis Values

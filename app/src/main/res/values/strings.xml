@@ -26,4 +26,10 @@
     <string name="us_ticker_error">Unable to get current price at this time</string>
     <string name="chart_loading_text">Loading…</string>
     <string name="chart_error_text">Unable to display chart</string>
+    <string name="one_day_timeframe_text">1D</string>
+    <string name="five_day_timeframe_text">5D</string>
+    <string name="one_month_timeframe_text">1M</string>
+    <string name="six_month_timeframe_text">6M</string>
+    <string name="year_to_date_timeframe_text">YTD</string>
+    <string name="one_year_timeframe_text">1Y</string>
 </resources>

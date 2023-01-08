@@ -22,9 +22,13 @@ import kotlinx.coroutines.launch
 class TickerFragment : Fragment() {
 
     private var _binding: FragmentTickerBinding? = null
+    private var _symbol: String? = null
+    private var _timestamp: Long? = null
     private var tickerQuoteJob: Job? = null
 
     private val binding get() = _binding!!
+    private val symbol get() = _symbol!!
+    private val timestamp get() = _timestamp!!
     private val args by navArgs<TickerFragmentArgs>()
     private val tickerViewModel: TickerViewModel by viewModels()
 
@@ -49,6 +53,10 @@ class TickerFragment : Fragment() {
 
             val ticker = args.ticker
             companyNameTextview.text = ticker.name
+            _symbol = ticker.symbol
+
+            timeframeToggleGroup.check(R.id.one_day_timeframe)
+            setupToggleGroupListener()
 
             showTickerPrice(ticker.symbol)
         }
@@ -67,6 +75,7 @@ class TickerFragment : Fragment() {
                 if (resource is Resource.Success) {
                     val tickerPrice = resource.data!!
                     binding.apply {
+                        _timestamp = tickerPrice.timestamp
                         currentTimestampTextview.text = tickerPrice.timestampFormatted
                         currentPriceTextview.text = getString(
                             R.string.ticker_current_price, tickerPrice.currentPrice
@@ -88,9 +97,9 @@ class TickerFragment : Fragment() {
         }
     }
 
-    private fun setCandleStickData(symbol: String, timestamp: Long) {
+    private fun setCandleStickData(symbol: String, timestamp: Long, timeframe: String = "1D") {
         lifecycleScope.launch {
-            tickerViewModel.setCandleStickData(symbol, timestamp)
+            tickerViewModel.setCandleStickData(symbol, timestamp, timeframe)
                 .observe(viewLifecycleOwner) { resource ->
                     if (resource is Resource.Error) updateChartWithErrorMsg()
 
@@ -123,6 +132,23 @@ class TickerFragment : Fragment() {
             setNoDataText(getString(R.string.chart_error_text))
             notifyDataSetChanged()
             invalidate()
+        }
+    }
+
+    private fun setupToggleGroupListener() {
+        binding.timeframeToggleGroup.addOnButtonCheckedListener {_, checkId, isChecked ->
+            if (isChecked) handleTimeframe(checkId)
+        }
+    }
+
+    private fun handleTimeframe(resId: Int) {
+        when (resId) {
+            R.id.one_day_timeframe -> setCandleStickData(symbol, timestamp, "1D")
+            R.id.five_day_timeframe -> setCandleStickData(symbol, timestamp, "5D")
+            R.id.one_month_timeframe -> setCandleStickData(symbol, timestamp, "1M")
+            R.id.six_month_timeframe -> setCandleStickData(symbol, timestamp, "6M")
+            R.id.year_to_date_timeframe -> setCandleStickData(symbol, timestamp, "YTD")
+            R.id.year_timeframe -> setCandleStickData(symbol, timestamp, "1Y")
         }
     }
 }
