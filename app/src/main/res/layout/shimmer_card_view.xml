@@ -14,25 +14,25 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="@dimen/article_imageview_height"
-            android:background="#B3B3B3"
+            android:background="@color/shimmer_color"
             tools:ignore="ContentDescription" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="@dimen/default_padding">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#B3B3B3" />
+                android:background="@color/shimmer_color" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_margin"
-                android:background="#B3B3B3" />
+                android:background="@color/shimmer_color" />
         </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

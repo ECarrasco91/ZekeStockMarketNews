@@ -17,42 +17,42 @@
             android:id="@+id/open_entry_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
+            android:textSize="@dimen/marker_view_text_size"
             tools:text="Open:" />
 
         <TextView
             android:id="@+id/high_entry_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
+            android:textSize="@dimen/marker_view_text_size"
             tools:text="High:" />
 
         <TextView
             android:id="@+id/low_entry_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
+            android:textSize="@dimen/marker_view_text_size"
             tools:text="Low:" />
 
         <TextView
             android:id="@+id/close_entry_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
+            android:textSize="@dimen/marker_view_text_size"
             tools:text="Close:" />
 
         <TextView
             android:id="@+id/volume_entry_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
+            android:textSize="@dimen/marker_view_text_size"
             tools:text="Volume:" />
 
         <TextView
             android:id="@+id/time_entry_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
+            android:textSize="@dimen/marker_view_text_size"
             tools:text="Time:" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
