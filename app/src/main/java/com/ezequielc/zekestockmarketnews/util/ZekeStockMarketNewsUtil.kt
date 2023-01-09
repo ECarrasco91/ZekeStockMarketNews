@@ -7,8 +7,7 @@ import com.ezequielc.zekestockmarketnews.data.ChartTimeframe
 import com.ezequielc.zekestockmarketnews.data.ChartTimestamp
 import java.text.SimpleDateFormat
 import java.time.Instant
-import java.util.Calendar
-import java.util.Date
+import java.util.*
 import kotlin.math.ln
 import kotlin.math.pow
 

@@ -1,6 +1,9 @@
 package com.ezequielc.zekestockmarketnews.ui.search
 
-import androidx.lifecycle.*
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asFlow
+import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.ezequielc.zekestockmarketnews.data.NewsArticle
 import com.ezequielc.zekestockmarketnews.repository.NewsRepository
