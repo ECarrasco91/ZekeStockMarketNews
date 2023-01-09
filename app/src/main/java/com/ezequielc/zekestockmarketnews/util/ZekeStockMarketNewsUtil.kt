@@ -1,6 +1,7 @@
 package com.ezequielc.zekestockmarketnews.util
 
 import android.content.Context
+import android.content.res.Configuration
 import androidx.core.content.ContextCompat
 import com.ezequielc.zekestockmarketnews.data.ChartTimeframe
 import com.ezequielc.zekestockmarketnews.data.ChartTimestamp
@@ -14,6 +15,20 @@ import kotlin.math.pow
 fun getString(context: Context, int: Int, args: String) = context.resources?.getString(int, args)
 
 fun getColorInt(context: Context?, color: Int) = ContextCompat.getColor(context!!, color)
+
+fun changeColorFromTheme(
+    context: Context,
+    lightThemeBlock: () -> Unit,
+    darkThemeBlock: () -> Unit
+) {
+    val configuration = context.resources.configuration
+    when (configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+        // Night mode is not active, we're using the light theme
+        Configuration.UI_MODE_NIGHT_NO -> lightThemeBlock.invoke()
+        // Night mode is active, we're using dark theme
+        Configuration.UI_MODE_NIGHT_YES -> darkThemeBlock.invoke()
+    }
+}
 
 fun convertToTimestamp(date: String) = Instant.parse(date).epochSecond
 

@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Paint
 import com.ezequielc.zekestockmarketnews.R
 import com.ezequielc.zekestockmarketnews.data.CandleStickChartData
+import com.ezequielc.zekestockmarketnews.util.changeColorFromTheme
 import com.ezequielc.zekestockmarketnews.util.getColorInt
 import com.github.mikephil.charting.charts.CandleStickChart
 import com.github.mikephil.charting.components.XAxis
@@ -17,6 +18,18 @@ class CustomCandleStickChart(private val context: Context) {
         candleStickChart: CandleStickChart,
         candleStickChartData: CandleStickChartData
     ) = candleStickChart.apply {
+        changeColorFromTheme(
+            context,
+            { // Code block for light theme
+                xAxis.textColor = getColorInt(context, R.color.black)
+                axisLeft.textColor = getColorInt(context, R.color.black)
+            },
+            { // Code block for dark theme
+                xAxis.textColor = getColorInt(context, R.color.white)
+                axisLeft.textColor = getColorInt(context, R.color.white)
+            }
+        )
+
         highlightValue(null) // removes OHLCV box (marker), if present
         fitScreen() // reset zoom
 
@@ -48,7 +61,13 @@ class CustomCandleStickChart(private val context: Context) {
     }
 
     fun styleCandleDataSet(candleDataSet: CandleDataSet) = candleDataSet.apply {
-        candleDataSet.highLightColor = getColorInt(context, R.color.black)
+        changeColorFromTheme(
+            context,
+            // Code block for light theme
+            { candleDataSet.highLightColor = getColorInt(context, R.color.black) },
+            // Code block for dark theme
+            { candleDataSet.highLightColor = getColorInt(context, R.color.white) }
+        )
 
         candleDataSet.shadowColor = getColorInt(context, R.color.darker_gray)
         candleDataSet.shadowWidth = 0.7f
