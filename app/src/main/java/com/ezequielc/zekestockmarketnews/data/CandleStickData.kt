@@ -23,3 +23,8 @@ data class ChartTimeframe(
     val interval: String,
     val timestamp: Long
 )
+
+data class ChartTimestamp(
+    val xAxis: String,
+    val candleStick: String
+)

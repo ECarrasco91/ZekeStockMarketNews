@@ -3,6 +3,7 @@ package com.ezequielc.zekestockmarketnews.util
 import android.content.Context
 import androidx.core.content.ContextCompat
 import com.ezequielc.zekestockmarketnews.data.ChartTimeframe
+import com.ezequielc.zekestockmarketnews.data.ChartTimestamp
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.util.Calendar
@@ -22,10 +23,10 @@ fun formatTimestamp(pattern: String, value: Long): String {
     return simpleDateFormat.format(date)
 }
 
-fun calculateTimeframe(toTimestamp: Long): ChartTimeframe {
-    val interval = "1" // 1 minute interval
+fun differentiateTimeframe(toTimestamp: Long, timeframe: String): ChartTimeframe {
+    val interval: String
 
-    val pattern = "MM.ddyyyy-hh:mm:ss"
+    val pattern = "MM.dd,yyyy-hh:mm:ss"
     val timestampFormatted = formatTimestamp(pattern, toTimestamp)
 
     val openTime = "-09:30:00"
@@ -38,8 +39,69 @@ fun calculateTimeframe(toTimestamp: Long): ChartTimeframe {
     val calendar = Calendar.getInstance()
     calendar.time = date!!
 
-    val from = date.time / 1000
-    return ChartTimeframe(interval, from)
+    when (timeframe) {
+        "5D" -> {
+            interval = "30" // 30 minute interval
+            calendar.add(Calendar.DAY_OF_YEAR, -6) // subtracting 6 days
+        }
+        "1M" -> {
+            interval = "D" // 1 day interval
+            calendar.add(Calendar.MONTH, -1) // minus one month
+            calendar.add(Calendar.DAY_OF_YEAR, +1) // plus one day
+        }
+        "6M" -> {
+            interval = "D" // 1 day interval
+            calendar.add(Calendar.MONTH, -6) // minus six month
+            calendar.add(Calendar.DAY_OF_YEAR, +1) // plus one day
+        }
+        "YTD" -> {
+            interval = "D" // 1 day interval
+
+            val januaryFirst = "01.01,"
+            val newDate = openTimeFormatted.split(",")
+            val ytdString = januaryFirst.plus(newDate[1])
+
+            val ytdDate = simpleDateFormat.parse(ytdString)
+            calendar.time = ytdDate!!
+
+            val timestamp = ytdDate.time / 1000
+            return ChartTimeframe(interval, timestamp)
+        }
+        "1Y" -> {
+            interval = "D" // 1 day interval
+            calendar.add(Calendar.YEAR, -1) // minus one month
+            calendar.add(Calendar.DAY_OF_YEAR, +1) // plus one day
+        }
+        else -> { // "1D"
+            interval = "1" // 1 minute interval
+            val timestamp = date.time / 1000
+            return ChartTimeframe(interval, timestamp)
+        }
+    }
+
+    val newDate = calendar.time
+    val timestamp = newDate.time / 1000
+    return ChartTimeframe(interval, timestamp)
+}
+
+fun differentiateFormatTimestamp(timeframe: String, timestamp: Long): ChartTimestamp {
+    val xAxisPattern: String = when (timeframe) {
+        "1D" -> "h:mm a"
+        "5D" -> "EE h:mm a"
+        // for "1M", "6M", "YTD", "1Y"
+        else -> "MMM d"
+    }
+
+    val candleStickPattern: String = when (timeframe) {
+        "1D" -> "h:mm a"
+        "5D" -> "EE MMM d h:mm a"
+        // for "1M", "6M", "YTD", "1Y"
+        else -> "MMM d yyyy"
+    }
+
+    val xAxis = formatTimestamp(xAxisPattern, timestamp)
+    val candleStickTime = formatTimestamp(candleStickPattern, timestamp)
+    return ChartTimestamp(xAxis, candleStickTime)
 }
 
 // Formats volume value with a metric prefix

@@ -32,10 +32,11 @@ class TickerRepository @Inject constructor(
     private suspend fun getCandleStickData(
         symbol: String,
         toTimestamp: Long,
+        timeframe: String
     ): Flow<Resource<List<CandleStickData>>> {
         return flow {
             try {
-                val result = calculateTimeframe(toTimestamp)
+                val result = differentiateTimeframe(toTimestamp, timeframe)
                 val response = service.getCandleStickData(
                     symbol,
                     result.interval,
@@ -69,14 +70,13 @@ class TickerRepository @Inject constructor(
             // Time Values for each CandleStick
             val timeEntries = mutableListOf<String>()
 
-            val response = getCandleStickData(symbol, timestamp)
+            val response = getCandleStickData(symbol, timestamp, timeframe)
             val candleStickDataList = handleResponse(response)
             candleStickDataList.forEach { candleStickData ->
                 // Adding X-axis Values and Time Values for each CandleStick
-                val pattern = "h:mm a"
-                val formattedValues = formatTimestamp(pattern, candleStickData.timestamp)
-                xAxisValues.add(formattedValues)
-                timeEntries.add(formattedValues)
+                val formattedValues = differentiateFormatTimestamp(timeframe, candleStickData.timestamp)
+                xAxisValues.add(formattedValues.xAxis)
+                timeEntries.add(formattedValues.candleStick)
 
                 // Adding Volumes
                 val formattedVolumes = formatVolume(candleStickData.volume)

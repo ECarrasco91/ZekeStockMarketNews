@@ -17,6 +17,9 @@ class CustomCandleStickChart(private val context: Context) {
         candleStickChart: CandleStickChart,
         candleStickChartData: CandleStickChartData
     ) = candleStickChart.apply {
+        highlightValue(null) // removes OHLCV box (marker), if present
+        fitScreen() // reset zoom
+
         legend.isEnabled = false
         description.isEnabled = false
         axisRight.isEnabled = false
