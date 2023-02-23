@@ -151,7 +151,7 @@ class TickerFragment : Fragment() {
 
     private fun handleTimeframe(resId: Int) {
         val symbol = tickerViewModel.symbol!!
-        val timestamp = tickerViewModel.timestamp!!
+        val timestamp = tickerViewModel.timestamp ?: return
         when (resId) {
             R.id.one_day_timeframe -> setCandleStickData(symbol, timestamp, "1D")
             R.id.five_day_timeframe -> setCandleStickData(symbol, timestamp, "5D")

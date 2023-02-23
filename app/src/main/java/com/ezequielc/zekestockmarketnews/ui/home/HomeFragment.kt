@@ -92,12 +92,12 @@ class HomeFragment : Fragment(), OnNewsArticleClickListener {
         }
     }
 
-    private fun showErrorSnackbar() {
+    private fun showErrorSnackbar(key: String) {
         hideShimmer()
         Snackbar.make(requireView(), R.string.latest_news_error, Snackbar.LENGTH_LONG)
             .setAnchorView(R.id.nav_view)
             .setAction(R.string.retry_text) {
-                showLatestNews()
+                if (key == DEFAULT_KEY) showLatestNews() else refreshLatestNews()
             }.show()
     }
 
@@ -108,7 +108,7 @@ class HomeFragment : Fragment(), OnNewsArticleClickListener {
                 .observe(viewLifecycleOwner) { resource ->
                     if (resource is Resource.Loading) showShimmer()
 
-                    if (resource is Resource.Error) showErrorSnackbar()
+                    if (resource is Resource.Error) showErrorSnackbar(DEFAULT_KEY)
 
                     if (resource is Resource.Success) {
                         hideShimmer()
@@ -126,7 +126,7 @@ class HomeFragment : Fragment(), OnNewsArticleClickListener {
                     if (resource is Resource.Loading) showShimmer()
 
                     if (resource is Resource.Error) {
-                        showErrorSnackbar()
+                        showErrorSnackbar(REFRESH_KEY)
                         binding.swipeRefreshLayout.isRefreshing = false
                     }
 

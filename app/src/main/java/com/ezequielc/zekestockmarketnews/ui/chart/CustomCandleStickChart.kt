@@ -31,14 +31,15 @@ class CustomCandleStickChart(private val context: Context) {
         )
 
         highlightValue(null) // removes OHLCV box (marker), if present
-        fitScreen() // reset zoom
-
+        setPinchZoom(false)
+        isDoubleTapToZoomEnabled = false
         legend.isEnabled = false
         description.isEnabled = false
         axisRight.isEnabled = false
         axisLeft.setDrawGridLines(false)
 
         xAxis.apply {
+            labelCount = 5
             position = XAxis.XAxisPosition.BOTTOM
             valueFormatter = IndexAxisValueFormatter(candleStickChartData.xAxisValues)
             setDrawGridLines(false)
